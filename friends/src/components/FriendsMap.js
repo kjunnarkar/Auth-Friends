@@ -10,8 +10,8 @@ const FriendsMap = () => {
     axiosWithAuth()
         .get('/friends')
         .then(res => {
-            console.log('Here are the friends', res);
-            setFriends(res);
+            console.log('Here are the friends', res.data);
+            setFriends(res.data);
         })
         .catch(err => console.log('Did not get list of friends', err))
 

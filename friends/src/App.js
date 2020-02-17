@@ -40,7 +40,6 @@ function App() {
           </ul>
           <Switch>
             <Route path='/login' component={Login} />
-            <Route component={Login} />
             <ProtectedRoute path='/friends' component={FriendsMap} />
             <ProtectedRoute path='/friends/:id' component={FriendsMap} />
             <ProtectedRoute path='/add' component={AddFriends} />
