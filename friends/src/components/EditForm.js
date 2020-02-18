@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import FriendsContext from '../contexts/FriendsContext';
 import styled from 'styled-components';
 import { axiosWithAuth } from '../utils/axiosWithAuth';
@@ -27,9 +27,11 @@ const SubmitButton = styled.button `
 `;
 // end styled-components
 
-const EditForm = ({ history }) => {
+const EditForm = ({ history, match }) => {
     const { friends, setFriends } = useContext(FriendsContext);
-    
+
+    console.log('here is the match object', match.params.id);
+
     const [editFriend, setEditFriend] = useState(
         {
             id: '',
@@ -39,6 +41,17 @@ const EditForm = ({ history }) => {
         }
     );
 
+    useEffect(() => {
+        axiosWithAuth()
+            .get(`/friends/${match.params.id}`)
+            .then(res=> {
+                console.log('here is the get from EditForm', res.data);
+                setEditFriend(res.data);
+            })
+            .catch(err => console.log('Did not get friend from EditForm', err));
+
+    }, [match.params.id]);
+
     const handleChange = event => {
 
         setEditFriend({ ...editFriend, [event.target.name]: event.target.value });
@@ -47,9 +60,9 @@ const EditForm = ({ history }) => {
     const handleSubmit = event => {
         event.preventDefault();
         axiosWithAuth()
-            .put('/friends/:id', editFriend)
+            .put(`/friends/${match.params.id}`, editFriend)
             .then(res => {
-                console.log('this is post response for edit friend', res);
+                console.log('this is post response for editFriend', res);
                 setEditFriend({
                     name: '',
                     age: '',

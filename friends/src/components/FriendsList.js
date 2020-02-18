@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import FriendsContext from '../contexts/FriendsContext';
-//import EditForm from './EditForm';
 import { axiosWithAuth } from '../utils/axiosWithAuth';
 
 // styled-components
@@ -44,15 +43,6 @@ const FriendsList = ({ person, history }) => {
     console.log(history);
     const { friends, setFriends } = useContext(FriendsContext);
 
-  /*  const [editFriend, setEditFriend] = useState([
-      {
-        id: '',
-        name: '',
-        age: '',
-        email: ''
-      }
-    ])
-*/
     const handleDelete = id => {
         axiosWithAuth()
         .delete(`/friends/${id}`)
@@ -60,24 +50,10 @@ const FriendsList = ({ person, history }) => {
             setFriends(friends.filter(oldFriends => oldFriends.id !== id))
         })
     };
-/*
-    const handleEdit = personID => {
-      if (editFriend[0].name) {
-        axiosWithAuth()
-          .put(`/friends/${personID}`, editFriend);
-          setEditFriend({name: '', age:'', email: ''});
-      }
-      else {
-        setFriends(editFriend);
-      }
-    };
-*/
 
 const handleEdit = (id) => {
-  //event.preventDefault();
   console.log('here is the id:')
   console.log(`${id}`);
-  //console.log('this is history', history.push)
   history.push(`/friends/${id}`);
 }
 

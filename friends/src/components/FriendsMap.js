@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { axiosWithAuth } from '../utils/axiosWithAuth';
 import FriendsContext from '../contexts/FriendsContext';
 import FriendsList from './FriendsList';
@@ -8,7 +8,8 @@ const FriendsMap = ({ history }) => {
     const { friends, setFriends } = useContext(FriendsContext);
     console.log('this is history from map', history);
 
-    axiosWithAuth()
+    useEffect(() => {
+        axiosWithAuth()
         .get('/friends')
         .then(res => {
             console.log('Here are the friends', res.data);
@@ -16,6 +17,8 @@ const FriendsMap = ({ history }) => {
         })
         .catch(err => console.log('Did not get list of friends', err))
 
+    }, [setFriends]);
+    
     return (
         <div>
             <h2>My Friends</h2>
