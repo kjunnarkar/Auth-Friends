@@ -3,9 +3,10 @@ import { axiosWithAuth } from '../utils/axiosWithAuth';
 import FriendsContext from '../contexts/FriendsContext';
 import FriendsList from './FriendsList';
 
-const FriendsMap = () => {
+const FriendsMap = ({ history }) => {
     
     const { friends, setFriends } = useContext(FriendsContext);
+    console.log('this is history from map', history);
 
     axiosWithAuth()
         .get('/friends')
@@ -19,7 +20,7 @@ const FriendsMap = () => {
         <div>
             <h2>My Friends</h2>
             {friends.map(person => {
-                return <FriendsList key={person.id} person={person} />
+                return <FriendsList key={person.id} history={history} person={person} />
             })}
         </div>
     )

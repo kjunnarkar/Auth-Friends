@@ -1,6 +1,7 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import FriendsContext from '../contexts/FriendsContext';
+//import EditForm from './EditForm';
 import { axiosWithAuth } from '../utils/axiosWithAuth';
 
 // styled-components
@@ -38,11 +39,12 @@ const EditButton = styled.button `
 // end styled-components
 
 
-const FriendsList = ({ person }) => {
+const FriendsList = ({ person, history }) => {
 
+    console.log(history);
     const { friends, setFriends } = useContext(FriendsContext);
 
-    const [editFriend, setEditFriend] = useState([
+  /*  const [editFriend, setEditFriend] = useState([
       {
         id: '',
         name: '',
@@ -50,7 +52,7 @@ const FriendsList = ({ person }) => {
         email: ''
       }
     ])
-
+*/
     const handleDelete = id => {
         axiosWithAuth()
         .delete(`/friends/${id}`)
@@ -58,39 +60,38 @@ const FriendsList = ({ person }) => {
             setFriends(friends.filter(oldFriends => oldFriends.id !== id))
         })
     };
-
-    const handleEdit = friend => {
-      if (editFriend.friend) {
+/*
+    const handleEdit = personID => {
+      if (editFriend[0].name) {
         axiosWithAuth()
-          .put(`/friends/${friend.id}`, editFriend);
+          .put(`/friends/${personID}`, editFriend);
           setEditFriend({name: '', age:'', email: ''});
       }
       else {
-        setEditFriend(friend);
+        setFriends(editFriend);
       }
     };
+*/
+
+const handleEdit = (id) => {
+  //event.preventDefault();
+  console.log('here is the id:')
+  console.log(`${id}`);
+  //console.log('this is history', history.push)
+  history.push(`/friends/${id}`);
+}
 
     return (
         <div>
-          {editFriend.person ? (
-            <>
-              <input value={editFriend.name} />
-              <input value={editFriend.age} />
-              <input value={editFriend.email} />
-            </>
-            ) : (
-              <>
-                <Card>
-                  <Info>
-                      <Name>Name: {person.name}</Name>
-                      <ListItems>Age: {person.age}</ListItems>
-                      <ListItems>Email: {person.email}</ListItems>
-                  </Info>
-                  <DeleteButton onClick={() => handleDelete(person.id)}>Remove Friend</DeleteButton>
-                  <EditButton onClick={() => handleEdit(editFriend)}>Edit Friend</EditButton>
-                </Card>      
-              </>
-            )}
+          <Card>
+              <Info>
+                  <Name>Name: {person.name}</Name>
+                  <ListItems>Age: {person.age}</ListItems>
+                  <ListItems>Email: {person.email}</ListItems>
+              </Info>
+              <DeleteButton onClick={() => handleDelete(person.id)}>Remove Friend</DeleteButton>
+              <EditButton onClick={() => handleEdit(person.id)}>Edit Friend</EditButton>
+            </Card>      
         </div>
     )
 }

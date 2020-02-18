@@ -4,6 +4,7 @@ import FriendsContext from './contexts/FriendsContext';
 import Login from './components/Login';
 import FriendsMap from './components/FriendsMap';
 import AddFriends from './components/AddFriends';
+import EditForm from './components/EditForm';
 import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
 
@@ -40,8 +41,8 @@ function App() {
           </ul>
           <Switch>
             <Route path='/login' component={Login} />
-            <ProtectedRoute path='/friends' component={FriendsMap} />
-            <ProtectedRoute path='/friends/:id' component={FriendsMap} />
+            <ProtectedRoute exact path='/friends' component={FriendsMap} />
+            <ProtectedRoute path='/friends/:id' component={EditForm} />
             <ProtectedRoute path='/add' component={AddFriends} />
           </Switch>
         </Router>
